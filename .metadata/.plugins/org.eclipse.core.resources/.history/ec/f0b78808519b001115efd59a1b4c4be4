@@ -1,0 +1,8 @@
+package com.facilitai.conexao;
+
+import java.sql.Connection;
+import com.facilitai.conexao.Conexao;
+
+public class Mensagens {
+    
+}

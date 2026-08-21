@@ -1,0 +1,29 @@
+package com.facilitai.conexao;
+
+import java.sql.Connection;
+import com.facilitai.conexao.Conexao;
+
+public class TesteConexao {
+
+    public static void main(String[] args) {
+        System.out.println("--- Iniciando teste de conexão com o banco de dados ---");
+
+        // Chama o método estático que você criou na classe Conexao
+        Connection conexao = Conexao.getConnection();
+
+        if (conexao != null) {
+            System.out.println("✅ SUCESSO: Conexão estabelecida com o banco de dados!");
+            
+            try {
+                // Boa prática: fecha a conexão após testar
+                conexao.close();
+                System.out.println("Conexão fechada com sucesso.");
+            } catch (Exception e) {
+                System.err.println("Erro ao fechar a conexão: " + e.getMessage());
+            }
+        } else {
+            System.err.println("❌ FALHA: Não foi possível conectar ao banco.");
+            System.err.println("Dica: Verifique se configurou as Variáveis de Ambiente no Eclipse!");
+        }
+    }
+}

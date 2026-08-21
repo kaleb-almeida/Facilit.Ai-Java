@@ -1,0 +1,19 @@
+package com.facilitai.conexao;
+
+import java.sql.Connection;
+import com.facilitai.conexao.Conexao;
+
+public class TesteConexao {
+    public static void main(String[] args) {
+        // Ao chamar este método, se houver erro, os System.err.println 
+        // e o e.printStackTrace() da sua classe Conexao serão executados.
+    	
+        Connection conexao = Conexao.getConnection();
+        
+        if (conexao == null) {
+            System.out.println("\n--- O teste detectou que a conexão retornou NULL. Olhe as linhas em vermelho acima para ver o motivo real. ---");
+        } else {
+            System.out.println("Conectado com sucesso!");
+        }
+    }
+}

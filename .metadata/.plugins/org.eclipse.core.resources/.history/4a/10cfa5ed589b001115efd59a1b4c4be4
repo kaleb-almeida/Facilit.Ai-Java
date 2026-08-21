@@ -1,0 +1,32 @@
+package com.facilitai.conexao;
+
+public class Mensagens {
+	    private int id;
+	    private String assistente_tipo;
+	    private String conversa_uuid;
+	    private String titulo;
+	    private String remetente;
+	    private String texto;
+	    private String ativo;
+	    private String criado_em;
+
+	    // Getters
+	    public int getId() { return id; }
+	    public String getNome() { return assistente_tipo; }
+	    public String getEmail() { return conversa_uuid; }
+	    public String getSenha() { return titulo; }
+	    public String getTipoConta() { return remetente; }
+	    public String getFotoPerfil() { return texto; }
+	    public String getStatus() { return ativo; }
+	    public String getCriadoEm() { return criado_em; }
+
+	    // Setters
+	    public void setId(int id) { this.id = id; }
+	    public void setNome(String assistente_tipo) { this.assistente_tipo = assistente_tipo; }
+	    public void setEmail(String conversa_uuid) { this.conversa_uuid = conversa_uuid; }
+	    public void setSenha(String titulo) { this.titulo = titulo; }
+	    public void setTipoConta(String remetente) { this.remetente = remetente; }
+	    public void setFotoPerfil(String texto) { this.texto = texto; }
+	    public void setStatus(String ativo) { this.ativo = ativo; }
+	    public void setCriadoEm(String criado_em) { this.criado_em = criado_em; }
+}
