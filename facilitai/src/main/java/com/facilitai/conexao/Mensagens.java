@@ -10,6 +10,7 @@ public class Mensagens {
 	    private String texto;
 	    private String ativo;
 	    private String criado_em;
+	    private String acao;
 
 	    // Getters
 	    public int getId() { return id; }
@@ -21,6 +22,7 @@ public class Mensagens {
 	    public String getTexto() { return texto; }
 	    public String getAtivo() { return ativo; }
 	    public String getCriadoEm() { return criado_em; }
+	    public String getAcao() { return acao; }
 
 	    // Setters
 	    public void setId(int id) { this.id = id; }
@@ -32,4 +34,5 @@ public class Mensagens {
 	    public void setTexto(String texto) { this.texto = texto; }
 	    public void setAtivo(String ativo) { this.ativo = ativo; }
 	    public void setCriadoEm(String criado_em) { this.criado_em = criado_em; }
+	    public void setAcao(String acao) { this.acao = acao; }
 }

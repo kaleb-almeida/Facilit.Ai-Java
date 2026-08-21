@@ -22,13 +22,11 @@ public class Server extends HttpServlet {
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse res) {
-        cors(res);
         res.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        cors(res);
         switch (rota(req)) {
             case "/register" -> registrar(req, res);
             case "/login" -> login(req, res);
@@ -39,14 +37,12 @@ public class Server extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        cors(res);
         if ("/me".equals(rota(req))) consultar(req, res);
         else resposta(res, 404, "{\"error\":\"Rota não encontrada.\"}");
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        cors(res);
         if ("/delete".equals(rota(req))) excluir(req, res);
         else resposta(res, 404, "{\"error\":\"Rota não encontrada.\"}");
     }
@@ -209,12 +205,6 @@ public class Server extends HttpServlet {
 
     private String rota(HttpServletRequest req) {
         return req.getPathInfo() == null ? "" : req.getPathInfo();
-    }
-
-    private void cors(HttpServletResponse res) {
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
     }
 
     private void resposta(HttpServletResponse res, int status, String body) throws IOException {

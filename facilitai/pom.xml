@@ -17,7 +17,7 @@
 
   <build>
     <!-- Tomcat publica a aplicação na raiz, permitindo /iaController. -->
-    <finalName>ROOT</finalName>
+    <finalName>facilitai</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

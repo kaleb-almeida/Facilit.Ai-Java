@@ -32,7 +32,7 @@ public class IaController extends HttpServlet {
             Mensagens mensagem = lerJson(request, response);
             if (mensagem == null) return;
 
-            String acao = request.getParameter("acao");
+            String acao = mensagem.getAcao();
             if ("titulos".equalsIgnoreCase(acao)) {
                 if (responderErroValidacao(response, validarUsuario(mensagem))) return;
 

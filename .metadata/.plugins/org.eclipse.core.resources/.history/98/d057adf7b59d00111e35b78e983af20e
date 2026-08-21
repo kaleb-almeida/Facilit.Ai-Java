@@ -1,0 +1,227 @@
+package com.facilitai.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import com.facilitai.conexao.Mensagens;
+import com.facilitai.dto.IaResponse;
+import com.facilitai.dto.MensagemConversa;
+import com.facilitai.dto.TituloConversa;
+import com.facilitai.service.IaService;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "iaController", urlPatterns = "/iaController")
+public class IaController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private final Gson gson = new Gson();
+    private final IaService iaService = new IaService();
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        preparar(request, response);
+        if (!validarContentType(request, response)) return;
+
+        try {
+            Mensagens mensagem = lerJson(request, response);
+            if (mensagem == null) return;
+
+            String acao = mensagem.getAcao();
+            System.out.println(acao);
+            if ("titulos".equalsIgnoreCase(acao)) {
+                if (responderErroValidacao(response, validarUsuario(mensagem))) return;
+
+                List<TituloConversa> titulos = iaService.pegarTitulos(mensagem);
+                if (titulos.isEmpty()) {
+                    escreverResposta(response, HttpServletResponse.SC_NOT_FOUND,
+                            new IaResponse(false, "Nenhuma conversa encontrada.", null));
+                    return;
+                }
+                escreverResposta(response, HttpServletResponse.SC_OK,
+                        new IaResponse(true, "Conversas encontradas.", titulos));
+                return;
+            }
+
+            if ("conversa".equalsIgnoreCase(acao)) {
+                if (responderErroValidacao(response, validarIdentificacao(mensagem))) return;
+
+                List<MensagemConversa> conversa = iaService.pegarConversa(mensagem);
+                if (conversa.isEmpty()) {
+                    escreverResposta(response, HttpServletResponse.SC_NOT_FOUND,
+                            new IaResponse(false, "Conversa não encontrada.", null));
+                    return;
+                }
+                escreverResposta(response, HttpServletResponse.SC_OK,
+                        new IaResponse(true, "Conversa encontrada.", conversa));
+                return;
+            }
+
+            escreverResposta(response, HttpServletResponse.SC_BAD_REQUEST,
+                    new IaResponse(false, "A ação deve ser 'titulos' ou 'conversa'.", null));
+        } catch (JsonSyntaxException | JsonIOException exception) {
+            responderJsonInvalido(response);
+        } catch (RuntimeException exception) {
+            responderErroInterno(response, exception);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        preparar(request, response);
+        if (!validarContentType(request, response)) return;
+
+        try {
+            Mensagens mensagem = lerJson(request, response);
+            if (mensagem == null) return;
+            if (responderErroValidacao(response, validarMensagemCompleta(mensagem))) return;
+
+            if (!iaService.salvarMensagem(mensagem)) {
+                escreverResposta(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        new IaResponse(false, "Não foi possível salvar a mensagem no banco de dados.", null));
+                return;
+            }
+            escreverResposta(response, HttpServletResponse.SC_CREATED,
+                    new IaResponse(true, "Mensagem salva com sucesso.", mensagem.getTexto()));
+        } catch (JsonSyntaxException | JsonIOException exception) {
+            responderJsonInvalido(response);
+        } catch (RuntimeException exception) {
+            responderErroInterno(response, exception);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        preparar(request, response);
+        if (!validarContentType(request, response)) return;
+
+        try {
+            Mensagens mensagem = lerJson(request, response);
+            if (mensagem == null) return;
+
+            String erro = validarIdentificacao(mensagem);
+            if (erro == null && estaVazio(mensagem.getTitulo())) {
+                erro = "O campo 'titulo' é obrigatório.";
+            }
+            if (responderErroValidacao(response, erro)) return;
+
+            if (!iaService.alterarTitulo(mensagem)) {
+                escreverResposta(response, HttpServletResponse.SC_NOT_FOUND,
+                        new IaResponse(false, "Conversa não encontrada.", null));
+                return;
+            }
+            escreverResposta(response, HttpServletResponse.SC_OK,
+                    new IaResponse(true, "Título alterado com sucesso.", null));
+        } catch (JsonSyntaxException | JsonIOException exception) {
+            responderJsonInvalido(response);
+        } catch (RuntimeException exception) {
+            responderErroInterno(response, exception);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        preparar(request, response);
+        if (!validarContentType(request, response)) return;
+
+        try {
+            Mensagens mensagem = lerJson(request, response);
+            if (mensagem == null) return;
+            if (responderErroValidacao(response, validarIdentificacao(mensagem))) return;
+
+            if (!iaService.excluirConversa(mensagem)) {
+                escreverResposta(response, HttpServletResponse.SC_NOT_FOUND,
+                        new IaResponse(false, "Conversa não encontrada.", null));
+                return;
+            }
+            escreverResposta(response, HttpServletResponse.SC_OK,
+                    new IaResponse(true, "Conversa excluída com sucesso.", null));
+        } catch (JsonSyntaxException | JsonIOException exception) {
+            responderJsonInvalido(response);
+        } catch (RuntimeException exception) {
+            responderErroInterno(response, exception);
+        }
+    }
+
+    private void preparar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+    }
+
+    private boolean validarContentType(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String contentType = request.getContentType();
+        if (contentType == null || !contentType.toLowerCase().startsWith("application/json")) {
+            escreverResposta(response, HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
+                    new IaResponse(false, "O Content-Type deve ser application/json.", null));
+            return false;
+        }
+        return true;
+    }
+
+    private Mensagens lerJson(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Mensagens mensagem = gson.fromJson(request.getReader(), Mensagens.class);
+        if (mensagem == null) {
+            escreverResposta(response, HttpServletResponse.SC_BAD_REQUEST,
+                    new IaResponse(false, "O JSON enviado não pode ser nulo ou vazio.", null));
+        }
+        return mensagem;
+    }
+
+    private String validarUsuario(Mensagens mensagem) {
+        return mensagem.getUsuarioId() <= 0
+                ? "O campo 'usuario_id' deve ser um número inteiro maior que zero." : null;
+    }
+
+    private String validarIdentificacao(Mensagens mensagem) {
+        String erro = validarUsuario(mensagem);
+        if (erro != null) return erro;
+        if (estaVazio(mensagem.getAssistenteTipo())) return "O campo 'assistente_tipo' é obrigatório.";
+        if (estaVazio(mensagem.getConversaUuid())) return "O campo 'conversa_uuid' é obrigatório.";
+        return null;
+    }
+
+    private String validarMensagemCompleta(Mensagens mensagem) {
+        String erro = validarIdentificacao(mensagem);
+        if (erro != null) return erro;
+        if (estaVazio(mensagem.getTitulo())) return "O campo 'titulo' é obrigatório.";
+        if (estaVazio(mensagem.getRemetente())) return "O campo 'remetente' é obrigatório.";
+        if (estaVazio(mensagem.getTexto())) return "O campo 'texto' é obrigatório.";
+        return null;
+    }
+
+    private boolean responderErroValidacao(HttpServletResponse response, String erro) throws IOException {
+        if (erro == null) return false;
+        escreverResposta(response, HttpServletResponse.SC_BAD_REQUEST,
+                new IaResponse(false, erro, null));
+        return true;
+    }
+
+    private boolean estaVazio(String valor) {
+        return valor == null || valor.trim().isEmpty();
+    }
+
+    private void responderJsonInvalido(HttpServletResponse response) throws IOException {
+        escreverResposta(response, HttpServletResponse.SC_BAD_REQUEST,
+                new IaResponse(false, "JSON inválido.", null));
+    }
+
+    private void responderErroInterno(HttpServletResponse response, RuntimeException exception)
+            throws IOException {
+        log("Erro ao processar a requisição da IA.", exception);
+        escreverResposta(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                new IaResponse(false, "Erro interno ao processar a solicitação.", null));
+    }
+
+    private void escreverResposta(HttpServletResponse response, int status, IaResponse corpo)
+            throws IOException {
+        response.setStatus(status);
+        gson.toJson(corpo, response.getWriter());
+    }
+}
