@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\facilitai"/>
 			<item value="C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\facilitai\src\main\java\com\facilitai\conexao\Conexao.java"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -45,12 +46,10 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
-			<item value="com.facilitai"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
-			<item value="model"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>

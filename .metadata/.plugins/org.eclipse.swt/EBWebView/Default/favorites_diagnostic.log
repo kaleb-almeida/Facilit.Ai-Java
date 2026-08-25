@@ -131,3 +131,23 @@
 2026-08-21 17:14:04.848: [INFO] BookmarksLoadDropped droppedNodes=0
 2026-08-21 17:14:04.848: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
 2026-08-21 23:14:46.800: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 01:02:18.808: [INFO] CurrentProfilePath: C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 01:02:18.808: [INFO] Profiles total count: 1
+2026-08-22 01:02:19.315: [INFO] Profile: name=Perfil 1 path=C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T00:18:35.714Z
+2026-08-22 01:02:19.315: [INFO] LastUsedProfileDir: C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 01:02:19.315: [INFO] MostRecentlyActiveProfile: name=Perfil 1 path=C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T00:18:35.714Z
+2026-08-22 01:02:19.315: [INFO] OnDoneLoading sync enabled: 0
+2026-08-22 01:02:19.315: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-08-22 01:02:19.315: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-08-22 01:02:19.315: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 01:10:02.338: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 09:50:22.022: [INFO] CurrentProfilePath: C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 09:50:22.022: [INFO] Profiles total count: 1
+2026-08-22 09:50:22.172: [INFO] Profile: name=Perfil 1 path=C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T00:18:35.714Z
+2026-08-22 09:50:22.172: [INFO] LastUsedProfileDir: C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-08-22 09:50:22.172: [INFO] MostRecentlyActiveProfile: name=Perfil 1 path=C:\Users\Cleiton\Documents\Tarefa do Curso-eclipse\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-08-22T00:18:35.714Z
+2026-08-22 09:50:22.172: [INFO] OnDoneLoading sync enabled: 0
+2026-08-22 09:50:22.172: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-08-22 09:50:22.172: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-08-22 09:50:22.172: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-22 09:58:10.611: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
