@@ -1,6 +1,6 @@
 <div align="center">
 
-# Facilit.AI - BackEnd
+# Facilit.Ai - Java
 
 > Projeto final do curso de **Formação de Tecnologia**.
 
